@@ -1,0 +1,16 @@
+# docker環境用DB接続設定
+default: &default
+  adapter: mysql2
+  encoding: utf8mb4
+  pool: <%= ENV.fetch("RAILS_MAX_THREADS") { 5 } %>
+  username: <%= ENV.fetch('MYSQL_USER') { 'root' } %>
+  password: <%= ENV.fetch('MYSQL_PASSWORD') { 'password' } %>
+  host: mysql
+
+development:
+  <<: *default
+  database: <%= ENV.fetch('COMPOSE_PROJECT_NAME') { 'webapp_development' } %>
+
+test:
+  <<: *default
+  database: webapp_test

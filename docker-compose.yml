@@ -1,0 +1,53 @@
+version: '3'
+
+services:
+  ruby:
+    env_file: .env
+    build: ./ruby/
+    volumes:
+    - ./ruby/src:/var/www
+    working_dir: /var/www/${COMPOSE_PROJECT_NAME}
+    command: bash -c "bundle install && bundle exec puma -C config/puma.rb"
+    depends_on: 
+      - mysql
+
+  nginx:
+    image: nginx
+    ports:
+    - 80:80
+    volumes:
+    - ./ruby/src/:/var/www/
+    - ./nginx/:/etc/nginx/conf.d/
+    depends_on:
+    - ruby
+
+  mysql:
+    image: mysql:5.7
+    env_file: .env
+    environment:
+      MYSQL_ROOT_PASSWORD: ${MYSQL_ROOT_PASSWORD}
+      MYSQL_DATABASE: ${MYSQL_DATABASE}
+      MYSQL_USER: ${MYSQL_USER}
+      MYSQL_PASSWORD: ${MYSQL_PASSWORD}
+      TZ: ${MYSQL_TIMEZONE}
+    command: mysqld --character-set-server=utf8mb4 --collation-server=utf8mb4_unicode_ci
+    volumes:
+    - ./db/data:/var/lib/mysql
+    - ./db/my.cnf:/etc/mysql/conf.d/my.cnf
+    - ./db/sql:/docker-entrypoint-initdb.d
+    ports:
+    - 3306:3306
+
+  phpmyadmin:
+    image: phpmyadmin/phpmyadmin
+    environment:
+      - PMA_ARBITRARY=1  #任意のサーバーで起動
+      - PMA_HOST=mysql
+      - PMA_USER=root
+      - PMA_PASSWORD=root
+    links:
+      - mysql  #mysqlコンテナにリンクする
+    ports:
+        - 8080:80  #localhost:8080とphpmyadminコンテナの80番ポートをつなげる
+    volumes:
+        - /sessions  
