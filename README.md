@@ -2,6 +2,7 @@
 Rails用docker環境
 
 ## tree
+```
 .
 ├── README.md
 ├── db
@@ -15,6 +16,7 @@ Rails用docker環境
     ├── Dockerfile
     ├── custom
     └── src
+```
 
 # ready for the application
 edit .env file
