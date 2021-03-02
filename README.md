@@ -19,7 +19,7 @@ Rails用docker環境
 ```
 
 # ready for the application
-edit .env file
+edit .env file  
 edit /nginx/custom.conf to change ${COMPOSE_PROJECT_NAME}
 
 # rails new 
