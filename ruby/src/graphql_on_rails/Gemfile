@@ -65,6 +65,8 @@ group :development do
 
   # Mount the GraphiQL IDE in Ruby on Rails. [https://github.com/rmosolgo/graphiql-rails]
   gem "graphiql-rails"
+  # Provides an executor for the graphql gem which allows queries to be batched.[https://github.com/Shopify/graphql-batch]
+  gem "graphql-batch"
 end
 
 group :test do
