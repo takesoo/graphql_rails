@@ -25,7 +25,7 @@ edit /nginx/custom.conf to change ${COMPOSE_PROJECT_NAME}
 # rails new 
 if you create new project
 ```
-$ docker-compose run ruby rails new . -d mysql --skip-bundle
+$ docker-compose run --rm ruby rails new . -d mysql --skip-bundle
 ```
 
 # git clone
@@ -34,7 +34,7 @@ if you use created project from github, git clone into /ruby/src/
 # start server
 ## only first time
 ```
-$ docker-compose run ruby gem install puma
+$ docker-compose run --rm ruby gem install puma
 $ mkdir ruby/src/${COMPOSE_PROJECT_NAME}/tmp/sockets
 $ touch ruby/src/${COMPOSE_PROJECT_NAME}/tmp/sockets/puma.sock
 $ cp ruby/custom/puma.rb ruby/src/${COMPOSE_PROJECT_NAME}/config/puma.rb
