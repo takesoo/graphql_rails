@@ -1,74 +1,18 @@
-# docker_for_rails
-Rails用docker環境
+## このリポジトリは
+GraphQLの勉強リポジトリです。
 
-## tree
-```
-.
-├── README.md
-├── db
-│   ├── data
-│   ├── my.cnf
-│   └── sql
-├── docker-compose.yml
-├── nginx
-│   └── custom.conf
-└── ruby
-    ├── Dockerfile
-    ├── custom
-    └── src
-```
+## 学んだこと
+### GraphQLとは
+https://graphql.org/learn/
 
-# ready for the application
-edit .env file  
-edit /nginx/custom.conf to change ${COMPOSE_PROJECT_NAME}
-
-# rails new 
-if you create new project
-```
-$ docker-compose run --rm ruby rails new . -d mysql --skip-bundle
-```
-
-# git clone
-if you use created project from github, git clone into /ruby/src/
-
-# start server
-## only first time
-```
-$ docker-compose run --rm ruby gem install puma
-$ mkdir ruby/src/${COMPOSE_PROJECT_NAME}/tmp/sockets
-$ touch ruby/src/${COMPOSE_PROJECT_NAME}/tmp/sockets/puma.sock
-$ cp ruby/custom/puma.rb ruby/src/${COMPOSE_PROJECT_NAME}/config/puma.rb
-$ cp ruby/custom/database.yml ruby/src/${COMPOSE_PROJECT_NAME}/config/database.yml
-```
-
-## start server
-```
-$ docker-compose up
-```
-
-# create database
-only first time
-```
-$ docker-compose exec mysql mysql -u root -p
-Enter password: 
-Welcome to the MySQL monitor.  Commands end with ; or \g.
-Your MySQL connection id is 30
-Server version: 5.7.33 MySQL Community Server (GPL)
-
-Copyright (c) 2000, 2021, Oracle and/or its affiliates.
-
-Oracle is a registered trademark of Oracle Corporation and/or its
-affiliates. Other names may be trademarks of their respective
-owners.
-
-Type 'help;' or '\h' for help. Type '\c' to clear the current input statement.
-
-mysql> grant all on *.* to docker@'%';
-Query OK, 0 rows affected (0.01 sec)
-
-mysql> exit
-Bye
-
-$ docker-compose exec ruby bash
-# rake db:create
-```
+### GraphQL関連Gem
+- RailsにGraphQLを導入する時は以下のgemを利用する
+  - graphql
+    - RailsにGraphQLの仕組みを導入できる。各種generateコマンドも用意されている。
+  - graphql-rails
+    - http://[project-name]/graphiql にGraphQLクエリ実行ページを導入できる。develop環境だけに導入するのが通例。
+  - graphql-batch
+    - GraphQLで発生するN+1問題を解消するGem。Loaderの定義は公式がexampleを用意してくれているが、内容の理解には知識が必要そう。
+## 参考資料
+- GraphQL [https://graphql.org/learn/]
+- [Rails基礎] GraphQL基礎講座 [https://zenn.dev/igaiga/books/rails-practice-note/viewer/rails_graphql_workshop]
